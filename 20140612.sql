@@ -36,5 +36,22 @@ create table vguo.g20140612 as
     group by
       b.num_day_diff;
       
+create table vguo.g20140612_1 as
+  select 
+    sum(num_reg_users) reg_users,
+    sum(num_paying_users) paying_users
+  from
+    vguo.g20140612
+  group by
+    case when
+      num_day_diff <= 30 then 1 else 0 end;
+    
+
+ 
+      
+      
+      
+            
+    
             
     
