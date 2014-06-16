@@ -1,0 +1,116 @@
+   
+create table vguo.g20140611_6 as
+  select 
+    c.customers_id,
+    sum(a.rev) revenue,
+    c.reg_age_gp, 
+    case when sum(a.rev) is not null then 1 else 0 end is_paying,
+    is_vip
+  from
+  
+    ( 
+     select customers_id, 
+       sum(value_revised) rev, 
+     
+       max(is_vip_at_txns) is_vip
+       
+       
+     from 
+       analysts_shared.cubes_rev_dim
+     where
+       year(purchase_date)=2014
+       and 
+       month (purchase_date)=3
+    
+     group by customers_id
+     ) a
+     right outer join   
+    ( 
+    select 
+      distinct (customers_id)
+     
+    from 
+      analysts_shared.active_users
+    where 
+      year = 2014 and month = 3 ) b
+    on 
+      a.customers_id=b.customers_id
+     
+    left outer join
+     (select
+        customers_id,
+        reg_age_gp
+      from
+        analysts_shared.customers360
+     ) c
+    on
+      b.customers_id=c.customers_id
+    
+    group by c.reg_age_gp,c.customers_id,is_vip;
+    
+    
+    
+create table vguo.g20140611_7 as
+  select 
+    count(customers_id) num_active_users,
+    sum(is_vip) num_vip,
+    sum(is_paying) num_paying,
+    sum(revenue) rev,
+    reg_age_gp
+  from 
+    vguo.g20140611_6
+  group by
+    reg_age_gp;
+    
+    
+create table vguo.g20140611_8 as
+  select 
+    count(c.customers_id),
+    sum(a.rev) revenue,
+    c.reg_age_gp, 
+    count(a.paid) num_paid,
+    
+    sum(is_vip) num_vip
+  from
+  
+    ( 
+     select customers_id, 
+       sum(value_revised) rev, 
+     
+       max(is_vip_at_txns) is_vip,
+       1 paid
+       
+       
+     from 
+       analysts_shared.cubes_rev_dim
+     where
+       year(purchase_date)=2014
+       and 
+       month (purchase_date)=3
+    
+     group by customers_id
+     ) a
+     right outer join   
+    ( 
+    select 
+      distinct (customers_id)
+     
+    from 
+      analysts_shared.active_users
+    where 
+      year = 2014 and month = 3 ) b
+    on 
+      a.customers_id=b.customers_id
+     
+    left outer join
+     (select
+        customers_id,
+        reg_age_gp
+      from
+        analysts_shared.customers360
+     ) c
+    on
+      b.customers_id=c.customers_id
+    
+    group by c.reg_age_gp;
+    
