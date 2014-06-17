@@ -12,3 +12,33 @@ where  b.orders_status=3
        and to_date(b.date_purchased)>='2013-06-04'
        and a.products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932)
 group by a.products_id, products_name;
+
+
+
+
+
+-------------------------------------
+
+select * 
+from default.orders_products 
+where products_quantity>1                             
+      and products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932)
+      limit 5;
+       
+       
+select * 
+from default.orders_products 
+where products_quantity>1                             
+limit 5;
+    
+    
+select a.ct
+from 
+    (select orders_id,
+            count(products_id) ct, 
+     from   default.orders_products
+     where  products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932)
+     group by orders_id
+    )a
+where a.ct>1;
+    
