@@ -35,7 +35,7 @@ limit 5;
 select a.ct
 from 
     (select orders_id,
-            count(products_id) ct, 
+            count(products_id) ct
      from   default.orders_products
      where  products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932)
      group by orders_id
