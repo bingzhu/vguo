@@ -1,0 +1,38 @@
+create table vguo.themedreg_rev_1 as
+select a.reg_date,
+       a.customers_id,
+       a.reg_age_gp,
+       a.omniture_new_new,
+       a.gender,
+       c.experiments_revenue,
+       d.experiments_id,
+       avg(b.chat_duration) avg_chat_duration
+       
+from  ( select customers_id,
+               es.experiments_name,
+               ce.date_added date_added,
+               es.experiments_id experiments_id
+        from  
+          (select * from default.experimental_sets 
+           where experiments_id in ('100956','100957')
+          ) es
+        join   default.customers_experiments ce
+        on     es.experiments_id=ce.experiments_id ) d
+        join
+        analysts_shared.customers360 a
+        on     d.customers_id=a.customers_id
+        left outer join
+        events_etl.event_data_imvu_chat_durations b
+        on     b.customers_id=a.customers_id
+        left outer join
+        analysts_shared.growth_experiments_customers_revenue c
+        on
+        c.customers_id=a.customers_id
+where b.day>=to_date(d.date_added) 
+group by  a.reg_date,
+          a.customers_id,
+          a.reg_age_gp,
+          a.omniture_new_new,
+          a.gender,
+          c.experiments_revenue,
+          d.experiments_id;
