@@ -164,10 +164,12 @@ customers_id,
 gender
 from analysts_shared.customers360)c
 on c.customers_id=a.customers_id 
-right outer join
-(select reseller from analysts_shared.z_resellers)r
+left outer join
+(select reseller, 1 temp from analysts_shared.z_resellers)r
 on r.reseller=c.customers_id
 where to_date(a.date_purchased)>=d.date_added
+and
+r.temp is not null
 group by c.reg_age_gp,
 c.omniture_new_new,
 a.customers_id,
