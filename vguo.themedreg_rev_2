@@ -1,177 +1,63 @@
-create table vguo.themedreg_rev_2 as
-select c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-c.gender,
-sum(is_buy_credit*credit) credit_purchased,
-sum(is_buy_credit*rev) credit_purchase_spending
-from 
-(select y.experiments_name,
-y.date_added date_added,
-y.experiments_id experiments_id
-from  
-(select * 
-from default.experimental_sets es
-where experiments_id in ('100956','100957'))y)d
-join   
-(select *
-from default.customers_experiments) ce
-on d.experiments_id=ce.experiments_id 
-left outer join
-(select customers_id,
-orders_id,
-date_purchased
-from default.orders)a
-on ce.customers_id=a.customers_id
-left outer join
-(select trim(substring(products_name, 1, Locate('c',products_name)-2)) credit,
-case when products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932) then 1 else 0 end is_buy_credit,
-final_price/1000 rev,
-orders_id,
-products_id
-from default.orders_products)b
-on a.orders_id=b.orders_id
-join 
-(select reg_age_gp,
-omniture_new_new,
-customers_id,
-gender
-from analysts_shared.customers360)c
-on c.customers_id=a.customers_id
-where to_date(a.date_purchased)>=d.date_added
-group by c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-c.gender;
 
-
-
-
--------------------------------------
 
 create table vguo.themedreg_rev_2 as
-select c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-c.gender,
-d.experiments_id,
-sum(is_buy_credit*credit) credit_purchased,
-sum(is_buy_credit*rev) credit_purchase_spending
-from 
-(select y.experiments_name,
-y.date_added date_added,
-y.experiments_id experiments_id
-from  
-(select * 
-from default.experimental_sets es
-where experiments_id in ('100956','100957'))y)d
-join   
-(select *
-from default.customers_experiments) ce
-on d.experiments_id=ce.experiments_id 
-left outer join
-(select customers_id,
-orders_id,
-date_purchased,
-orders_status
-from default.orders
-where orders_status=3)a
-on ce.customers_id=a.customers_id
-left outer join
-(select 
-case when products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932) then 1 else 0 end is_buy_credit,
-final_price/1000 rev,
-orders_id,
-products_id,
-products_name
-from default.orders_products)b
-on a.orders_id=b.orders_id
-join
-(select products_id,
-        credit
-    from vguo.credit_products_id
-) e
-on e.products_id=b.products_id
-join 
-(select reg_age_gp,
-omniture_new_new,
-customers_id,
-gender
-from analysts_shared.customers360)c
-on c.customers_id=a.customers_id 
-left outer join
-(select reseller,1 temp from analysts_shared.z_resellers)r
-on r.reseller=c.customers_id
-where to_date(a.date_purchased)>=d.date_added
-and
-r.temp is null
-group by c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-d.experiments_id,
-c.gender;
+   select c.reg_age_gp,
+          c.omniture_new_new,
+          a.customers_id,
+          c.gender,
+          d.experiments_id,
+          sum(is_buy_credit*credit) credit_purchased,
+          sum(is_buy_credit*rev) credit_purchase_spending
+   from   
+        (select y.experiments_name,
+                y.date_added date_added,
+                y.experiments_id experiments_id
+         from  
+             (select * 
+              from default.experimental_sets es
+              where experiments_id in ('100956','100957'))y)d
+             join   
+             (select *
+              from default.customers_experiments) ce
+             on d.experiments_id=ce.experiments_id 
+             left outer join
+             (select customers_id,
+                     orders_id,
+                     date_purchased,
+                     orders_status
+              from default.orders
+              where orders_status=3)a
+              on ce.customers_id=a.customers_id
+             left outer join
+             (select case when products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932) then 1 else 0 end is_buy_credit,
+                     final_price/1000 rev,
+                     orders_id,
+                     products_id,
+                     products_name
+              from default.orders_products)b
+              on a.orders_id=b.orders_id
+              join
+             (select products_id,
+             credit
+             from vguo.credit_products_id) e
+             on e.products_id=b.products_id
+             join 
+             (select reg_age_gp,
+                     omniture_new_new,
+                     customers_id,
+                     gender
+              from analysts_shared.customers360)c
+              on c.customers_id=a.customers_id 
+              left outer join
+              (select reseller,1 temp from analysts_shared.z_resellers)r
+              on r.reseller=c.customers_id
+    where to_date(a.date_purchased)>=d.date_added
+          and
+          r.temp is null
+    group by c.reg_age_gp,
+             c.omniture_new_new,
+             a.customers_id,
+             d.experiments_id,
+             c.gender;
 
 
----------------
-
-create table vguo.themedreg_rev_3 as
-select c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-c.gender,
-d.experiments_id,
-sum(is_buy_credit*credit) credit_purchased,
-sum(is_buy_credit*rev) credit_purchase_spending
-from 
-(select y.experiments_name,
-y.date_added date_added,
-y.experiments_id experiments_id
-from  
-(select * 
-from default.experimental_sets es
-where experiments_id in ('100956','100957'))y)d
-join   
-(select *
-from default.customers_experiments) ce
-on d.experiments_id=ce.experiments_id 
-left outer join
-(select customers_id,
-orders_id,
-date_purchased,
-orders_status
-from default.orders
-where orders_status=3)a
-on ce.customers_id=a.customers_id
-left outer join
-(select 
-case when products_id in (24832107,24832162,24832141,24832178,24832156,24832193,24832198,24832205,24832208,24832212,24832212,24835792,24835813,24835834,24835843,25021932) then 1 else 0 end is_buy_credit,
-final_price/1000 rev,
-orders_id,
-products_id,
-products_name
-from default.orders_products)b
-on a.orders_id=b.orders_id
-join
-(select products_id,
-        credit
-    from vguo.credit_products_id
-) e
-on e.products_id=b.products_id
-join 
-(select reg_age_gp,
-omniture_new_new,
-customers_id,
-gender
-from analysts_shared.customers360)c
-on c.customers_id=a.customers_id 
-left outer join
-(select reseller, 1 temp from analysts_shared.z_resellers)r
-on r.reseller=c.customers_id
-where to_date(a.date_purchased)>=d.date_added
-and
-r.temp is not null
-group by c.reg_age_gp,
-c.omniture_new_new,
-a.customers_id,
-d.experiments_id,
-c.gender;
