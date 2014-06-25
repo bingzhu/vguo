@@ -55,7 +55,9 @@ from   analysts_shared.cdfs_YMD a
        on b.country=c.countries_id
 where  a.fact_type=36
        and
-       a.year in ('2013','2014')
+       a.date<='2014-05-31'
+       and
+       a.date>='2013-01-01'
        and
        c.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
 group by c.countries_iso_code_2,
