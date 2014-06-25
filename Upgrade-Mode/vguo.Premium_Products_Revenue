@@ -7,7 +7,7 @@ from analysts_shared.premium_products a
      on a.country=b.countries_iso_code_2
 where purchase_year_month='2014-05'
       and
-      b.countries_iso_code_2 in ('US','CA','AU','UK','NZ');
+      b.countries_iso_code_2 in ('US','CA','AU','GB','NZ');
       
       
       
