@@ -2,6 +2,10 @@ create table vguo.premium_products_revenue as
    select a.products_id,
           to_date(b.date_purchased) purchase_date,
           c.countries_iso_code_2 country,
+          d.has_ap,
+          d.has_vip,
+          d.reg_age_gp,
+          d.omniture_new_new,
           sum(a.final_price)/1000 revenue
    from   default.orders_products a
           join
