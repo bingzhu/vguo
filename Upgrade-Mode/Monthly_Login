@@ -1,0 +1,25 @@
+select c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       b.has_vip,
+       count(a.count)
+from   analysts_shared.cdfs_YMD a
+       join
+       analysts_shared.customers360 b
+       on a.customers_id=b.customers_id
+       join
+       default.countries c
+       on b.country=c.countries_id
+where  a.fact_type=36
+       and
+       a.month=5
+       and
+       a.year=2014
+       and
+       c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
+group by c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       b.has_vip;
