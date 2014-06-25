@@ -1,0 +1,20 @@
+create table vguo.revenue_all_products as
+select a.purchase_date,
+       b.country,
+       sum(a.value_revised) revenue
+from analysts_shared.cubes_rev_dim a 
+     join 
+     analysts_shared.customers360 b
+     on a.customers_id=b.customers_id
+     join
+     default.countries c
+     on c.countries_id=b.country
+where a.purchase_date>='2014-05-01'
+      and
+      a.purchase_date<='2014-05-31'
+      and
+      c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
+group by a.purchase_date,
+         b.country;
+     
+       
