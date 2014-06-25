@@ -1,13 +1,14 @@
 drop table if exists vguo.premium_products_revenue;
 create table vguo.premium_products_revenue as
-select * 
+select * , month(purchase_year_month) month
 from analysts_shared.premium_products a
      join
      default.countries b
      on a.country=b.countries_iso_code_2
-where purchase_year_month='2014-05'
+where purchase_year_month>='2013-01'
       and
-      b.countries_iso_code_2 in ('US','CA','AU','GB','NZ');
+      b.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
+group by month(purchase_year_month);
       
       
       
