@@ -34,4 +34,35 @@ group by c.countries_iso_code_2,
 select count(distinct customers_id) 
 from vguo.monthly_login;
 
+----------------------------------------------------------------
+
+drop table if exists vguo.monthly_login;
+create table vguo.monthly_login as
+select c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       b.has_vip,
+       a.customers_id,
+       a.month,
+       count(a.count)
+from   analysts_shared.cdfs_YMD a
+       join
+       analysts_shared.customers360 b
+       on a.customers_id=b.customers_id
+       join
+       default.countries c
+       on b.country=c.countries_id
+where  a.fact_type=36
+       and
+       a.year in ('2013','2014')
+       and
+       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
+group by c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       a.customers_id,
+       a.month,
+       b.has_vip;
        
