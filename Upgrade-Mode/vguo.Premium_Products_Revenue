@@ -1,3 +1,5 @@
+drop table if exists vguo.premium_products_revenue;
+create table vguo.premium_products_revenue as
 select * 
 from analysts_shared.premium_products a
      join
