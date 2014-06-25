@@ -1,6 +1,6 @@
 create table vguo.revenue_all_products as
 select a.purchase_date,
-       b.country,
+       c.countries_iso_code_2 country,
        sum(a.value_revised) revenue
 from analysts_shared.cubes_rev_dim a 
      join 
@@ -15,6 +15,6 @@ where a.purchase_date>='2014-05-01'
       and
       c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
 group by a.purchase_date,
-         b.country;
+      c.countries_iso_code_2；
      
        
