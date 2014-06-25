@@ -1,4 +1,5 @@
-create table vguo.month_login as
+drop table if exists vguo.monthly_login;
+create table vguo.monthly_login as
 select c.countries_iso_code_2,
        b.omniture_new_new,
        b.reg_age_gp,
@@ -19,11 +20,18 @@ where  a.fact_type=36
        and
        a.year=2014
        and
-       c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
+       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
 group by c.countries_iso_code_2,
        b.omniture_new_new,
        b.reg_age_gp,
        b.has_ap,
        a.customers_id,
        b.has_vip;
+       
+       
+       ----------
+       
+select count(distinct customers_id) 
+from vguo.month_login;
+
        
