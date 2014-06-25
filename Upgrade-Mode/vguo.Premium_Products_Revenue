@@ -35,7 +35,7 @@ create table vguo.premium_products_revenue as
           c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
     group by a.products_id,
           to_date(b.date_purchased),
-          c.countries_iso_code_2
+          c.countries_iso_code_2,
           d.has_ap,
           d.has_vip,
           d.reg_age_gp,
