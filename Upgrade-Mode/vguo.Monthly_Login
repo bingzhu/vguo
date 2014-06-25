@@ -1,9 +1,10 @@
-create table vguo.monthly_login as
+create table vguo.month_login
 select c.countries_iso_code_2,
        b.omniture_new_new,
        b.reg_age_gp,
        b.has_ap,
        b.has_vip,
+       a.customers_id,
        count(a.count)
 from   analysts_shared.cdfs_YMD a
        join
@@ -23,4 +24,6 @@ group by c.countries_iso_code_2,
        b.omniture_new_new,
        b.reg_age_gp,
        b.has_ap,
+       a.customers_id,
        b.has_vip;
+       
