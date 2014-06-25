@@ -1,6 +1,6 @@
 drop table if exists vguo.revenue_all_products;
 create table vguo.revenue_all_products as
-select a.purchase_date,
+select month(a.purchase_date) month,
        c.countries_iso_code_2 country,
        b.has_ap,
        b.has_vip,
@@ -14,7 +14,7 @@ from analysts_shared.cubes_rev_dim a
      join
      default.countries c
      on c.countries_id=b.country
-where a.purchase_date>='2014-05-01'
+where a.purchase_date>='2013-01-01'
       and
       a.purchase_date<='2014-05-31'
       and
@@ -24,6 +24,7 @@ group by a.purchase_date,
       b.has_ap,
       b.has_vip,
       b.reg_age_gp,
+      month(a.purchase_date),
       b.omniture_new_new;
     
        
