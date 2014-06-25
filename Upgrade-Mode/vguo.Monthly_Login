@@ -32,6 +32,6 @@ group by c.countries_iso_code_2,
        ----------
        
 select count(distinct customers_id) 
-from vguo.month_login;
+from vguo.monthly_login;
 
        
