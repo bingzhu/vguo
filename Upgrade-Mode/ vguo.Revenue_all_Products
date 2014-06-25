@@ -21,7 +21,7 @@ where a.purchase_date>='2014-05-01'
 group by a.purchase_date,
       c.countries_iso_code_2,
       b.has_ap,
-      b.has_vip，
+      b.has_vip,
       b.reg_age_gp,
       b.omniture_new_new;
     
