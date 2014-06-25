@@ -1,4 +1,4 @@
-create table vguo.month_login
+create table vguo.month_login as
 select c.countries_iso_code_2,
        b.omniture_new_new,
        b.reg_age_gp,
