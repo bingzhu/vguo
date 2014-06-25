@@ -1,11 +1,18 @@
 create table vguo.premium_products_revenue as
    select a.products_id,
           to_date(b.date_purchased) purchase_date,
+          c.countries_iso_code_2 country,
           sum(a.final_price)/1000 revenue
    from   default.orders_products a
           join
           default.orders b
           on a.orders_id=b.orders_id
+          join
+          analysts_shared.customers360 d
+          on b.customers_id=d.customers_id
+          join
+          default.countries c
+          on c.countries_id=d.country
    where  a.products_id in (195,2942067,3426122,3439168,3439171,3440133,16197626,16197642,16197646,16197672,
                                 1048788,18722567,18538413,18538456,18538508,18633501,18728734,18741186,
                                 21009478,
@@ -20,5 +27,8 @@ create table vguo.premium_products_revenue as
           to_date(b.date_purchased)<='2014-05-31'
           and
           b.orders_status=3
+          and
+          c.countries_iso_code_2 in ('US','CA','AU','UK','NZ')
     group by a.products_id,
-          to_date(b.date_purchased);
+          to_date(b.date_purchased),
+          c.countries_iso_code_2;
