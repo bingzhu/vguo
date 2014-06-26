@@ -14,3 +14,4 @@ from   vguo.revenue_all_products_201405 a
 
 select stddev_pop(revenue), avg(revenue)
 from vguo.stdev_daily_arpu_by_user_201405;
+
