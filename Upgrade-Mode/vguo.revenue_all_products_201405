@@ -28,3 +28,4 @@ group by
       b.has_vip,
       b.reg_age_gp,
       b.omniture_new_new;
+      
