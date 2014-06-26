@@ -1,0 +1,24 @@
+drop table if exists vguo.daily_login_201405;
+create table vguo.daily_login_201405 as
+select c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       b.has_vip,
+       a.customers_id,
+       a.day
+       
+from   analysts_shared.cdfs_YMD a
+       join
+       analysts_shared.customers360 b
+       on a.customers_id=b.customers_id
+       join
+       default.countries c
+       on b.country=c.countries_id
+where  a.fact_type=36
+       and
+       a.year=2014
+       and
+       month=5
+       and
+       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ');
