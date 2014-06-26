@@ -1,2 +1,16 @@
 create table vguo.stdev_daily_arpu_by_user_201405 as
-select 
+select case when a.revenue>0 then a.revenue else 0.000000000 end revenue,
+       b.customers_id,
+       a.day
+from   vguo.revenue_all_products_201405 a
+       right outer join
+       vguo.daily_login_201405 b
+       on a.customers_id=b.customers_id
+          and
+          a.day=b.day;
+
+
+------------------------------
+
+select stddev_pop(revenue), avg(revenue)
+from vguo.stdev_daily_arpu_by_user_201405;
