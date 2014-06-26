@@ -1,0 +1,2 @@
+create table vguo.stdev_daily_arpu_by_user_201405 as
+select 
