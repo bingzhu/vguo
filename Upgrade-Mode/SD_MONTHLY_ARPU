@@ -15,3 +15,4 @@ select stdevp(revenue/login) from vguo.sd_monthly_arpu;
 
 
 
+
