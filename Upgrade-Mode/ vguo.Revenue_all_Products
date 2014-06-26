@@ -1,6 +1,7 @@
 drop table if exists vguo.revenue_all_products;
 create table vguo.revenue_all_products as
 select month(a.purchase_date) month,
+       year(a.purchase_date) year,
        c.countries_iso_code_2 country,
        b.has_ap,
        b.has_vip,
@@ -19,12 +20,13 @@ where a.purchase_date>='2013-01-01'
       a.purchase_date<='2014-05-31'
       and
       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
-group by a.purchase_date,
+group by 
+      year(a.purchase_date),
+      month(a.purchase_date),
       c.countries_iso_code_2,
       b.has_ap,
       b.has_vip,
       b.reg_age_gp,
-      month(a.purchase_date),
       b.omniture_new_new;
     
        
