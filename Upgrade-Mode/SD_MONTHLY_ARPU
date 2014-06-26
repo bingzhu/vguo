@@ -1,0 +1,13 @@
+drop table if exists vguo.sd_monthly_arpu;
+create table vguo.sd_monthly_arpu as
+select sum(a.revenue) revenue,
+       count(customers_id) login
+       a.month
+from vguo.Revenue_all_Products a 
+     join
+     vguo.monthly_login b
+     on a.month=b.month
+group by a.month;
+
+-----------------
+select stdevp(revenue/login) from vguo.sd_monthly_arpu;
