@@ -6,7 +6,8 @@ select c.countries_iso_code_2,
        b.has_ap,
        b.has_vip,
        a.customers_id,
-       a.day
+       a.day,
+       count(a.count)
        
 from   analysts_shared.cdfs_YMD a
        join
@@ -21,4 +22,11 @@ where  a.fact_type=36
        and
        month=5
        and
-       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ');
+       c.countries_iso_code_2 in ('US','CA','AU','GB','NZ')
+group by c.countries_iso_code_2,
+       b.omniture_new_new,
+       b.reg_age_gp,
+       b.has_ap,
+       b.has_vip,
+       a.customers_id,
+       a.day;
