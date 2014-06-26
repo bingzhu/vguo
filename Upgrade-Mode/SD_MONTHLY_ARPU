@@ -11,3 +11,7 @@ group by a.month;
 
 -----------------
 select stdevp(revenue/login) from vguo.sd_monthly_arpu;
+
+
+
+
