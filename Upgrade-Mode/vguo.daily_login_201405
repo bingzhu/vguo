@@ -30,4 +30,5 @@ group by c.countries_iso_code_2,
        b.has_vip,
        a.customers_id,
        a.day;
+       
 
