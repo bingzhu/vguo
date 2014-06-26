@@ -68,3 +68,5 @@ group by c.countries_iso_code_2,
        a.month,
        b.has_vip;
        
+       
+       
