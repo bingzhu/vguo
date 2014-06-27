@@ -39,3 +39,4 @@ group by  a.reg_date,
           d.experiments_id;
           
           
+          
