@@ -1,0 +1,36 @@
+drop table if exists vguo.99cents_revenue_across_experiments;
+create table vguo.99cents_revenue_across_experiments as
+select a.experimental_sets_id,
+       a.experiments_id,
+       a.date_added,
+       a.experiments_name,
+       b.customers_id,
+       e.orders_id,
+       d.date_purchased,
+       sum(e.final_price/1000) revenue,
+       case when sum(e.final_price)>0 then 1 else 0 end ever_purchased
+from   default.experimental_sets a
+       join 
+       default.customers_experiments b
+       on a.experiments_id=b.experiments_id
+       join
+       analysts_shared.growth_experiments_cube c
+       on b.experiments_id=c.experiments_id
+       join
+       default.orders d
+       on d.customers_id=b.customers_id
+       join
+       default.orders_products e
+       on d.orders_id=e.orders_id
+where  d.orders_status=3
+       and
+       d.customers_id>124349031
+       and
+       a.experiments_id in ('100855','100856','100971','100972')
+group by a.experimental_sets_id,
+       a.experiments_id,
+       a.date_added,
+       a.experiments_name,
+       b.customers_id,
+       e.orders_id,
+       d.date_purchased;
