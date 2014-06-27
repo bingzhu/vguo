@@ -1,6 +1,7 @@
 drop table if exists vguo.99cents_revenue_across_experiments;
 create table vguo.99cents_revenue_across_experiments as
-select a.99_cents_exp_sets_id,
+select b.experiments_id,
+       a.99_cents_exp_sets_id,
        a.99_cents_exp_id,
        a.date_add_99cents,
        a.first_purchase_99cents,
