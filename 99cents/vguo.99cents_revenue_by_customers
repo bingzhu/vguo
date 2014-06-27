@@ -1,0 +1,35 @@
+drop table if exists vguo.99cents_revenue_by_customers;
+create table vguo.99cents_revenue_by_customers as
+select a.experimental_sets_id 99_cents_exp_sets_id,
+       a.experiments_id 99_cents_exp_id,
+       a.date_added date_add_99cents,
+       a.experiments_name 99cents_exp_name,
+       b.customers_id,
+       e.orders_id,
+       min(d.date_purchased),
+       sum(e.final_price/1000) revenue,
+       case when sum(e.final_price)>0 then 1 else 0 end ever_purchased_99cents
+from   default.experimental_sets a
+       join 
+       default.customers_experiments b
+       on a.experiments_id=b.experiments_id
+       join
+       default.orders d
+       on d.customers_id=b.customers_id
+       join 
+       default.orders_products e
+       on d.orders_id=e.orders_id
+where  d.orders_status=3
+       and
+       d.customers_id>124349031
+       and
+       a.experiments_id in ('100855','100856','100971','100972')
+       and
+       e.products_id=31676
+       
+group by a.experimental_sets_id,
+       a.experiments_id,
+       a.date_added,
+       a.experiments_name,
+       b.customers_id,
+       e.orders_id;
