@@ -12,7 +12,7 @@ from   vguo.99cents_revenue_by_customers a
        join 
        default.customers_experiments b
        on a.customers_id=b.customers_id
-       join
+       right outer join
        analysts_shared.growth_experiments_cube c
        on b.experiments_id=c.experiments_id
 where  b.customers_id>124349031;
