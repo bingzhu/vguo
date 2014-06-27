@@ -3,7 +3,6 @@ create table vguo.99cents_revenue_by_customers as
 select a.experimental_sets_id 99_cents_exp_sets_id,
        a.experiments_id 99_cents_exp_id,
        a.date_added date_add_99cents,
-       a.experiments_name 99cents_exp_name,
        b.customers_id,
        min(d.date_purchased) first_purchase_99cents,
        sum(e.final_price/1000) revenue,
@@ -22,12 +21,11 @@ where  d.orders_status=3
        and
        d.customers_id>124349031
        and
-       a.experiments_id in ('100855','100856','100971','100972')
+       a.experiments_id in ('100855','100971')
        and
        e.products_id=31676
        
 group by a.experimental_sets_id,
        a.experiments_id,
        a.date_added,
-       a.experiments_name,
        b.customers_id;
