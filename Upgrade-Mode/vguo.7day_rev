@@ -1,0 +1,32 @@
+drop table if exists vguo.7day_rev;
+create table vguo.7day_rev as
+select d.countries_iso_code_2 country,
+       a.customers_id,
+       b.has_ap,
+       b.has_vip,
+       b.reg_age_gp,
+       b.omniture_new_new,
+       d.first_login_date,
+       case when sum(a.value_revised)>0 then sum(a.value_revised) else 0.0000000 end revenue
+from analysts_shared.cubes_rev_dim a 
+     right outer join 
+     analysts_shared.customers360 b
+     on a.customers_id=b.customers_id
+     right outer join
+     vguo.Monthly_Login d
+     on d.customers_id=b.customers_id
+where datediff(a.purchase_date,d.first_login_date)<=7
+      or
+      a.purchase_date is null
+group by 
+       d.countries_iso_code_2,
+       a.customers_id,
+       b.has_ap,
+       b.has_vip,
+       b.reg_age_gp,
+       b.omniture_new_new,
+       d.first_login_date;
+       
+       
+       -------------
+select avg(revenue), stddev_pop(revenue) from vguo.7day_rev group by customers_id;
