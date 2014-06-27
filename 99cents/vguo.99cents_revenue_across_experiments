@@ -1,38 +1,19 @@
 drop table if exists vguo.99cents_revenue_across_experiments;
 create table vguo.99cents_revenue_across_experiments as
-select a.experimental_sets_id,
-       a.experiments_id,
-       a.date_added,
-       a.experiments_name,
+select a.99_cents_exp_sets_id,
+       a.99_cents_exp_id,
+       a.date_add_99cents,
+       a.99cents_exp_name,
+       a.first_purchase_99cents,
        b.customers_id,
+       a.revenue,
        e.orders_id,
-       min(d.date_purchased),
-       sum(e.final_price/1000) revenue,
-       case when sum(e.final_price)>0 then 1 else 0 end ever_purchased
-from   default.experimental_sets a
+       case when a.revenue>0 then 1 else 0 end ever_purchased
+from   vguo.99cents_revenue_by_customers a
        join 
        default.customers_experiments b
-       on a.experiments_id=b.experiments_id
+       on a.customers_id=b.customers_id
        join
        analysts_shared.growth_experiments_cube c
        on b.experiments_id=c.experiments_id
-       join
-       default.orders d
-       on d.customers_id=b.customers_id
-       join
-       default.orders_products e
-       on d.orders_id=e.orders_id
-where  d.orders_status=3
-       and
-       d.customers_id>124349031
-       and
-       a.experiments_id in ('100855','100856','100971','100972')
-       and
-       e.products_id=31676
-       
-group by a.experimental_sets_id,
-       a.experiments_id,
-       a.date_added,
-       a.experiments_name,
-       b.customers_id,
-       e.orders_id;
+where  c.customers_id>124349031;
