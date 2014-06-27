@@ -38,3 +38,4 @@ group by  a.reg_date,
           c.experiments_revenue,
           d.experiments_id;
           
+          
