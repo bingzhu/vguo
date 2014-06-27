@@ -8,8 +8,7 @@ select d.countries_iso_code_2 country,
        b.omniture_new_new,
        d.first_login_date, 
        a.purchase_date,
-       case
-from   vguo.7day_purchase when datediff(a.purchase_date,d.first_login_date)<=7 then a.value_revised else 0.0000000 end revenue
+       case when datediff(a.purchase_date,d.first_login_date)<=7 then a.value_revised else 0.0000000 end revenue
 from analysts_shared.cubes_rev_dim a 
      right outer join 
      analysts_shared.customers360 b
