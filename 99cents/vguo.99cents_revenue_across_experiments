@@ -6,7 +6,7 @@ select a.experimental_sets_id,
        a.experiments_name,
        b.customers_id,
        e.orders_id,
-       d.date_purchased,
+       min(d.date_purchased),
        sum(e.final_price/1000) revenue,
        case when sum(e.final_price)>0 then 1 else 0 end ever_purchased
 from   default.experimental_sets a
@@ -35,5 +35,4 @@ group by a.experimental_sets_id,
        a.date_added,
        a.experiments_name,
        b.customers_id,
-       e.orders_id,
-       d.date_purchased;
+       e.orders_id;
