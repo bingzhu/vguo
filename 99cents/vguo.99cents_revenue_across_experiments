@@ -27,6 +27,9 @@ where  d.orders_status=3
        d.customers_id>124349031
        and
        a.experiments_id in ('100855','100856','100971','100972')
+       and
+       e.products_id=31676
+       
 group by a.experimental_sets_id,
        a.experiments_id,
        a.date_added,
