@@ -1,4 +1,4 @@
-drop table if exists vguo.themedreg_rev_1
+drop table if exists vguo.themedreg_rev_1;
 create table vguo.themedreg_rev_1 as
 select a.reg_date,
        a.customers_id,
