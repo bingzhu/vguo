@@ -5,7 +5,7 @@ select a.experimental_sets_id 99_cents_exp_sets_id,
        a.date_added date_add_99cents,
        a.experiments_name 99cents_exp_name,
        b.customers_id,
-       min(d.date_purchased),
+       min(d.date_purchased) first_purchase_99cents,
        sum(e.final_price/1000) revenue,
        case when sum(e.final_price)>0 then 1 else 0 end ever_purchased_99cents
 from   default.experimental_sets a
