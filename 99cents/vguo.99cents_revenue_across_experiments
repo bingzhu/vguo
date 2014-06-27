@@ -7,7 +7,6 @@ select a.99_cents_exp_sets_id,
        a.first_purchase_99cents,
        b.customers_id,
        a.revenue,
-       e.orders_id,
        case when a.revenue>0 then 1 else 0 end ever_purchased
 from   vguo.99cents_revenue_by_customers a
        join 
@@ -16,4 +15,4 @@ from   vguo.99cents_revenue_by_customers a
        join
        analysts_shared.growth_experiments_cube c
        on b.experiments_id=c.experiments_id
-where  c.customers_id>124349031;
+where  b.customers_id>124349031;
